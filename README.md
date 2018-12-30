@@ -13,7 +13,9 @@ git clone https://github.com/KipCrossing/Coil_Physics.git
 
 
 ```python
-from coil import coil
+from coil import Coil
+
+T_Coil = Coil()
 ```
 
 ## Acknowledgements
