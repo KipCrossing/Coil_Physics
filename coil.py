@@ -7,7 +7,7 @@ from Euler import rotation_matrix
 class Coil(object):
     # Put some of these into init
     coil_I = 1
-
+    frequency = 10000
 
     coil_position = [0,0,0]
     coil_axis = [0,0,1]
@@ -24,9 +24,11 @@ class Coil(object):
     coil_inductance = ((0.8/25.4)*(coil_radius_ave**2)*(coil_turns**2)) \
     /(6*coil_radius_ave + 9*coil_length + 10*coil_depth)
 
+    X_L = 2*np.pi*frequency*coil_inductance
+
     coil_resistance = 12.0
 
-    coil_impedance = np.sqrt(coil_resistance**2 + coil_inductance**2)
+    coil_impedance = np.sqrt(coil_resistance**2 + X_L**2)
 
     coil_current = 1/coil_impedance
     F = coil_current*coil_turns
