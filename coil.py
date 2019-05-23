@@ -15,18 +15,20 @@ class Coil(object):
     coil_radius_in = 0.005
     coil_radius_out = 0.015
     coil_radius_ave = (coil_radius_in + coil_radius_out)/2.0
-    coil_length = 0.065
+    coil_length = 0.1
     coil_depth = coil_radius_out - coil_radius_in
     wire_thickness = 0.0005
     coil_turns = (coil_length/wire_thickness) \
         * (coil_depth/wire_thickness)
 
-    coil_inductance = ((0.8/25.4)*(coil_radius_ave**2)*(coil_turns**2)) \
-        / (6*coil_radius_ave + 9*coil_length + 10*coil_depth)
+    # coil_inductance = ((0.8/25.4)*(coil_radius_ave**2)*(coil_turns**2)) \
+    #    / (6*coil_radius_ave + 9*coil_length + 10*coil_depth)
 
-    coil_capacitance = 7.675*(10**-11)
+    coil_inductance = 0.5143
 
-    coil_resistance = 12.0
+    coil_capacitance = 0.16*(10**-9)
+
+    coil_resistance = 15.6
 
     _winding_sides = 128
     winding_radius = coil_radius_in
@@ -62,8 +64,8 @@ class Coil(object):
                            output_location):
         element_output_vector = np.subtract(output_location, element_location)
 
-        element_output_unit_vector = element_output_vector /
-        np.linalg.norm(element_output_vector)
+        element_output_unit_vector = element_output_vector /\
+            np.linalg.norm(element_output_vector)
         # Doesn't work for z = 0!!! So don't consider this case.
 
         # Magnetic flux density
@@ -126,7 +128,11 @@ class Mesh(object):
 
 
 T_Coil = Coil()
-print(T_Coil.coil_inductance)
+
+print('L: %s H' % T_Coil.coil_inductance)
+print('Xt: %s oHms' % T_Coil.Total_Reactance(17100))
+print('Z: %s oHms' % T_Coil.Impedance(17100))
+print('I: %s A' % T_Coil.Coil_Current(T_Coil.Impedance(17100)))
 T_Coil.coil_inductance = 0.2402
 max_freq = None
 max_I = 0
